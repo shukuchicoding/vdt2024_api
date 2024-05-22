@@ -1,13 +1,17 @@
-FROM node:lts-alpine
-
-EXPOSE 5000
+FROM node:lts-alpine as builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+RUN chown node:node /app
 
-run npm install
+USER node
 
-COPY . .
+COPY --chown=node:node package*.json ./
+
+RUN npm i --production
+
+COPY --chmod=node:node . .
+
+EXPOSE 5000
 
 CMD ["node", "index.js"]
