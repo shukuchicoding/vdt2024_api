@@ -8,7 +8,7 @@ const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu
 
 app.use(cors());
 app.use(Express.json());
-mongoose.connect(CONNECTION_STRING).then(async () => {
+mongoose.connect(CONNECTION_STRING).then(() => {
     app.listen(5000, () => { console.log("Server started on port 5000"); })
 }).catch((error) => {
     console.log({ error });
@@ -26,9 +26,9 @@ const memSchema = new Schema({
 });
 const student = mongoose.model('vdter', memSchema);
 // Hien thi tat ca
-app.get('/all', async (req, res) => {
+app.get("/all", async (req, res) => {
     try {
-        const students = await student.find().collation({ locale: 'vi', strength: 2 }).sort({name: 1});
+        const students = await student.find();
         res.status(200).json(students);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -49,10 +49,8 @@ app.post("/add", async (req, res) => {
 })
 // Sua theo id
 app.put("/update/&id=:id", async (req, res) => {
-    const id = req.params.id;
     try {
-        const newUser = req.body;
-        await student.findByIdAndUpdate(id, req.body);
+        await student.findByIdAndUpdate(req.params.id, req.body);
         res.status(200).json(newUser);
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -60,10 +58,9 @@ app.put("/update/&id=:id", async (req, res) => {
 });
 // Xoa theo id
 app.delete("/delete/&id=:id", async (req, res) => {
-    const id = req.params.id;
     try {
-        const user = await student.findByIdAndDelete(id)
-        res.json(user);
+        const user = await student.findByIdAndDelete(req.params.id)
+        res.status(200).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
