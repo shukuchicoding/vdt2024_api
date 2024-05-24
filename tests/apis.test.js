@@ -37,7 +37,7 @@ describe("GET /all", () => {
     it("should return all", async () => {
         const res = await request(app).get("/all");
         expect(res.statusCode).toBe(200);
-        expect(res.body.length).toBeGreaterThan(0);
+        expect(res.body.length).toBeGreaterThan(1);
     });
 });
 
