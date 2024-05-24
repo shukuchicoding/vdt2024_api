@@ -65,3 +65,5 @@ app.delete("/delete/&id=:id", async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 })
+
+module.exports = app;
