@@ -15,7 +15,7 @@ afterAll(done => {
 })
 /* Connecting to the database before each test. */
 beforeEach(async () => {
-    await mongoose.connect("mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt");
+    await mongoose.connect("mongodb://localhost:27017/students");
 });
 
 /* Closing database connection after each test. */

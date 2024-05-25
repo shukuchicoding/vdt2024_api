@@ -4,7 +4,8 @@ var cors = require("cors");
 const mongoose = require('mongoose');
 
 const app = Express();
-const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt";
+// const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt";
+const CONNECTION_STRING = "mongodb://localhost:27017/students";
 
 app.use(cors());
 app.use(Express.json());
