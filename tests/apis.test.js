@@ -1,6 +1,5 @@
 const app = require('../index.js');
 const mongoose = require("mongoose");
-// const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const request = require("supertest");
 
@@ -15,23 +14,13 @@ afterAll(done => {
 })
 /* Connecting to the database before each test. */
 beforeEach(async () => {
-    await mongoose.connect("mongodb://localhost:27017/students");
+    await mongoose.connect("mongodb://localhost:27017/students");    
 });
 
 /* Closing database connection after each test. */
 afterEach(async () => {
     await mongoose.connection.close();
 });
-
-// beforeEach(async () => {
-//     const mongo = await MongoMemoryServer.create();
-//     const uri = mongo.getUri();
-//     mongoose.connect(uri);
-// });
-
-// afterEach(async () => {
-//     await mongoose.connection.close();
-// });
 
 describe("GET /all", () => {
     it("should return all", async () => {
