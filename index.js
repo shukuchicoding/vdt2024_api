@@ -2,10 +2,11 @@ var Express = require("express");
 var Mongoclient = require("mongodb").MongoClient;
 var cors = require("cors");
 const mongoose = require('mongoose');
-
+const dotenv = require('dotenv');
+dotenv.config();
 const app = Express();
-// const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt";
-const CONNECTION_STRING = "mongodb://localhost:27017/students";
+
+const CONNECTION_STRING = process.env.MONGO_URL;
 
 app.use(cors());
 app.use(Express.json());

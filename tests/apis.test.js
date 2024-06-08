@@ -2,8 +2,10 @@ const app = require('../index.js');
 const mongoose = require("mongoose");
 
 const request = require("supertest");
+const dotenv = require('dotenv');
+dotenv.config();
+const CONNECTION_STRING = process.env.MONGO_URL;
 
-// let mongo;
 beforeAll(done => {
     done()
 })
@@ -14,7 +16,7 @@ afterAll(done => {
 })
 /* Connecting to the database before each test. */
 beforeEach(async () => {
-    await mongoose.connect("mongodb://localhost:27017/students");    
+    await mongoose.connect(CONNECTION_STRING);    
 });
 
 /* Closing database connection after each test. */
