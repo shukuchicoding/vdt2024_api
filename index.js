@@ -6,12 +6,21 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = Express();
 
-const CONNECTION_STRING = process.env.MONGO_URL;
+const {
+    MONGO_USERNAME,
+    MONGO_PASSWORD,
+    MONGO_HOSTNAME,
+    MONGO_PORT,
+    MONGO_DB
+    
+} = process.env;
 
+// const CONNECTION_STRING = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
+const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt"
 app.use(cors());
 app.use(Express.json());
 mongoose.connect(CONNECTION_STRING).then(() => {
-    app.listen(5000, () => { console.log("Server started on port 5000"); })
+    app.listen(5000, () => { console.log("MongoDB is connected"); })
 }).catch((error) => {
     console.log({ error });
 });
