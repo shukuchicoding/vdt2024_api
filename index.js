@@ -7,16 +7,18 @@ dotenv.config();
 const app = Express();
 
 const {
-    MONGO_USERNAME,
-    MONGO_PASSWORD,
-    MONGO_HOSTNAME,
-    MONGO_PORT,
-    MONGO_DB
-    
+    // MONGO_USERNAME,
+    // MONGO_PASSWORD,
+    // MONGO_HOSTNAME,
+    // MONGO_PORT,
+    // MONGO_DB,
+    MONGO_URL
 } = process.env;
 
 // const CONNECTION_STRING = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`;
-const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt"
+// const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt"
+const CONNECTION_STRING = MONGO_URL
+
 app.use(cors());
 app.use(Express.json());
 mongoose.connect(CONNECTION_STRING).then(() => {
