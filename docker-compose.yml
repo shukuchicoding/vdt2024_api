@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   api:
-    image: api
+    image: vietanhhust1404/api
     build:
       context: .
       dockerfile: ./Dockerfile
