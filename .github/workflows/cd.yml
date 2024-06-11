@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger workflow when a tag starting with 'v' is pushed
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker build -t vietanhhust1404/api:${{ github.ref_name }} .
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker tag vietanhhust1404/api:${{ github.ref_name }} $DOCKER_USERNAME/vietanhhust1404/api:${{ github.ref_name }}
+          docker push $DOCKER_USERNAME/api:${{ github.ref_name }}
+
+      - name: Update values.yaml in config repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.EXTERNAL_REPOSITORY_PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git clone https://github.com/shukuchicoding/vdt-api-config
+          cd vdt-api-config
+          sed -i 's/tag: .*/tag: ${{ github.ref_name }}/g' values.yaml
+          git config user.name "Lê Minh Việt Anh"
+          git config user.email "hinhmomohinh@gmail.com"
+          git commit -m "Update ImageVersion in values.yaml"
+          git push origin master
