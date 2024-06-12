@@ -1,18 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name }}-api
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "api-config.labels" . | nindent 4 }}
+    {{ .Release.Name }}-api
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "api-config.selectorLabels" . | nindent 6 }}
+      labels:
+        {{ .Release.Name }}-api
   template:
     metadata:
       labels:
-        {{- include "api-config.labels" . | nindent 8 }}
+        {{ .Release.Name }}-api
     spec:
       containers:
         - name: {{ .Values.container.name | quote }}
