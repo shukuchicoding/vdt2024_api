@@ -23,3 +23,5 @@ spec:
           env:
             - name: MONGO_URL
               value: {{ .Values.env.MONGO_URL }}
+            - name: WEB
+              value: {{ .Values.env.WEB }}

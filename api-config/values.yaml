@@ -15,7 +15,7 @@ service:
 env:
   # MONGOSVC: http://192.168.49.2:30417
   MONGO_URL: mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu.mongodb.net/?retryWrites=true&w=majority&appName=vdt
-
+  WEB: http://192.168.49.2:30414
 container:
   name: api
 ingress:
