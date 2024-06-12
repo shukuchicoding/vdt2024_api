@@ -6,6 +6,12 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = Express();
 
+const corsOption = {
+    // origin: 'http://localhost:3000',
+    origin: 'http://192.168.49.2:30414',
+    credentials: true
+};
+
 const {
     // MONGO_USERNAME,
     // MONGO_PASSWORD,
@@ -20,7 +26,7 @@ const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu
 // const CONNECTION_STRING = MONGO_URL
 
 
-app.use(cors());
+app.use(cors(corsOption));
 app.use(Express.json());
 mongoose.connect(CONNECTION_STRING).then(() => {
     app.listen(5000, () => { console.log("MongoDB is connected"); })
