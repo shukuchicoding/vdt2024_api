@@ -4,7 +4,7 @@ image:
   repository: vietanhhust1404/api
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: v1.0.0
 
 service:
   type: NodePort
