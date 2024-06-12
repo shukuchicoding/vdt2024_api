@@ -10,7 +10,7 @@ service:
   type: NodePort
   port: 5000
   targetport: 5000
-  nodePort: 30416
+  nodePort: 30415
 
 env:
   # MONGOSVC: http://192.168.49.2:30417
