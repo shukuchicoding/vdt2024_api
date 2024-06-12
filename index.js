@@ -8,7 +8,7 @@ const app = Express();
 
 const corsOption = {
     // origin: 'http://localhost:3000',
-    origin: 'http://192.168.49.2:30414',
+    // origin: 'http://192.168.49.2:30414',
     credentials: true
 };
 
