@@ -142,7 +142,7 @@ app.post("/check", async (req, res) => {
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid password' });
+            return res.status(403).json({ message: 'Invalid password' });
         }
         // console.log("touch");
         const token = generateToken(user);
