@@ -111,7 +111,7 @@ app.post("/add", authenticateToken, authorizeRoles('admin', 'user'), async (req,
         }
         res.status(200).json({ message: "New student", newStudent });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(403).json({ error: error.message });
     }
 })
 // Sua theo id
@@ -120,7 +120,7 @@ app.put("/update/&id=:id", authenticateToken, authorizeRoles('admin'), async (re
         await student.findByIdAndUpdate(req.params.id, req.body);
         res.status(200).json(newUser);
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(403).json({ error: error.message })
     }
 });
 // Xoa theo id
@@ -129,7 +129,7 @@ app.delete("/delete/&id=:id", authenticateToken, authorizeRoles('admin'), async 
         const user = await student.findByIdAndDelete(req.params.id)
         res.status(200).json(user);
     } catch (error) {
-        res.status(400).json({ error: error.message })
+        res.status(403).json({ error: error.message })
     }
 })
 
@@ -153,9 +153,9 @@ app.post("/check", async (req, res) => {
             message: error.message,
             path: req.originalUrl,
             method: req.method,
-            responseCode: 500
+            responseCode: 403
         });
-        res.status(500).json({ message: error.message });
+        res.status(403).json({ message: error.message });
     }
 });
 
