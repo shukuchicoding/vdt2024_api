@@ -141,7 +141,7 @@ app.post("/check", async (req, res) => {
             return res.status(403).json({ message: 'Invalid username' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
-        if (passwordMatch) {
+        if (!passwordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
         // console.log("touch");
