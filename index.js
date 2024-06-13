@@ -1,6 +1,15 @@
 var Express = require("express");
 var Mongoclient = require("mongodb").MongoClient;
 var cors = require("cors");
+const { rateLimit } = require("express-rate-limit");
+
+const apiLimiter = rateLimit({
+    windowMs: 60 * 1000, // Thời gian cửa sổ (trong mili giây)
+    max: 10, // Số lượng yêu cầu tối đa trong cửa sổ thời gian
+    message: "Bạn đã gửi quá nhiều yêu cầu, vui lòng thử lại sau 1 phút",
+    statusCode: 409, // Mã HTTP Response trả về khi vượt quá giới hạn
+});
+
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -28,6 +37,7 @@ const CONNECTION_STRING = "mongodb+srv://vietanhvdt:vietanh123456789@vdt.lfw9tlu
 
 app.use(cors(corsOption));
 app.use(Express.json());
+app.use(apiLimiter);
 mongoose.connect(CONNECTION_STRING).then(() => {
     app.listen(5000, () => { console.log("MongoDB is connected"); })
 }).catch((error) => {
@@ -36,12 +46,12 @@ mongoose.connect(CONNECTION_STRING).then(() => {
 
 const Schema = mongoose.Schema;
 const memSchema = new Schema({
-    name: String,
+    name: {type: String, required: true},
     age: Number,
     email: String,
     phoneNumber: String,
-    gender: String,
-    school: String,
+    gender: {type: String, required: true},
+    school: {type: String, required: true},
     nation: String
 });
 const student = mongoose.model('vdter', memSchema);
