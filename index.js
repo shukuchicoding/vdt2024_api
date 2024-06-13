@@ -2,6 +2,7 @@ var Express = require("express");
 var Mongoclient = require("mongodb").MongoClient;
 var cors = require("cors");
 const { rateLimit } = require("express-rate-limit");
+var bcrypt = require("bcrypt");
 // xac thuc
 const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
@@ -139,7 +140,8 @@ app.post("/check", async (req, res) => {
         if (!user || user.username === 'none' || user.password === 'none')  {
             return res.status(401).json({ message: 'Invalid username' });
         }
-        if (!compare(password, user.password)) {
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
         console.log("touch");
