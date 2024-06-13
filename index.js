@@ -70,7 +70,6 @@ const generateToken = (user) => {
 
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.token;
-    console.log("Token: ",token);
     if (!token) {
         return res.status(403).json({ message: 'No token provided' });
     }
@@ -85,7 +84,6 @@ const authenticateToken = (req, res, next) => {
 
 const authorizeRoles = (...roles) => {
     return (req, res, next) => {
-        console.log("Roles: ",req.user.role);
         if (!roles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Access denied', role: req.user.role, requiredRoles: roles});
         }
