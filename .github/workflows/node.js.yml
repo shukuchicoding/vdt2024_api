@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: cicd-api
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -30,3 +30,47 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+  deploy-local:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: vietanhhust1404/api:${{ github.ref_name }}
+
+
+    - name: Checkout helm config repo
+      uses: actions/checkout@v2
+      with:
+        repository: shukuchicoding/vdt-api-config
+        token: ${{ secrets.PERSONAL_ACCESS_KEY }}
+        path: .
+
+    - name: Update values.yaml
+      run: |
+        sed -i 's/tag: .*/tag: ${{ github.ref_name }}/' ./values.yaml
+ 
+    - name: Commit and push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_KEY }}
+      run: |
+        git config --global user.name '${{ secrets.USER_NAME }}'
+        git config --global user.email '${{ secrets.USER_EMAIL }}'
+        git add -A
+        git commit -m "Update api image tag to ${{ github.ref_name }}"
+        git push origin master
