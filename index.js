@@ -138,13 +138,13 @@ app.post("/check", async (req, res) => {
         const { username, password } = req.body;
         const user = await student.findOne({ username });
         if (!user || user.username === 'none' || user.password === 'none')  {
-            return res.status(401).json({ message: 'Invalid username' });
+            return res.status(403).json({ message: 'Invalid username' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
+        if (passwordMatch) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-        console.log("touch");
+        // console.log("touch");
         const token = generateToken(user);
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ message: `Logged in successfully as ${user.role}`, token, user });
